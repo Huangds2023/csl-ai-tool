@@ -67,7 +67,7 @@ if st.button("开始深度分析", type="primary"):
                 # 配置模型
                 genai.configure(api_key=api_key)
                 model = genai.GenerativeModel(
-                    model_name="gemini-2.5-pro", # 使用 Pro 版本以获得更好的逻辑推理
+                    model_name="gemini-2.0-flash", # 使用 Pro 版本以获得更好的逻辑推理
                     system_instruction=SYSTEM_PROMPT
                 )
                 
