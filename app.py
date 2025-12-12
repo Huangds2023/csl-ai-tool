@@ -105,3 +105,28 @@ if st.button("开始深度分析", type="primary"):
 
         except Exception as e:
             st.error(f"连接出错: {e}")
+# --- 在 app.py 的最后添加这段代码 ---
+
+with st.sidebar:
+    st.divider()
+    st.header("🕵️‍♂️ 调试工具")
+    if st.button("检查可用模型列表"):
+        if not api_key:
+            st.error("请先输入 API Key")
+        else:
+            try:
+                genai.configure(api_key=api_key)
+                st.write("正在查询 Google 服务器...")
+                available_models = []
+                for m in genai.list_models():
+                    if 'generateContent' in m.supported_generation_methods:
+                        available_models.append(m.name)
+                
+                if available_models:
+                    st.success("查询成功！你的 API Key 支持以下模型：")
+                    st.code("\n".join(available_models))
+                    st.info("请复制上面列表中的任意一个名字（例如 models/gemini-pro），填入代码的 model_name 中。")
+                else:
+                    st.error("没有找到支持 generateContent 的模型。可能 API Key 无效。")
+            except Exception as e:
+                st.error(f"查询失败: {e}")
